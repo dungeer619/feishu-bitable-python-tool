@@ -31,6 +31,7 @@ readin_df = get_records_from_feishu(app_token, table_id, authen_token_paras)
 ```
 功能：将指定多维表格具体table_id对应的表格数据读入python，以pandas.DataFrame的形式存储  
 
+
 调用API参考文档：  
 <font size="0.5">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/bitable-v1/app-table-record/list</font>  
 
@@ -41,6 +42,7 @@ readin_df = get_records_from_feishu(app_token, table_id, authen_token_paras)
 delete_records_of_feishu_per500(app_token, table_id, authen_token_paras)
 ```
 功能：目前飞书提供的API是以每次最多500条的效率进行删除的，调用该函数可将多维表格指定table_id的具体表格的数据清空  
+
 
 调用API参考文档：  
 <font size="0.5">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/bitable-v1/app-table-record/list</font>  
@@ -53,6 +55,7 @@ delete_records_of_feishu_per500(app_token, table_id, authen_token_paras)
 write_to_feishu_per500(data_frame, app_token, table_id, authen_token_paras)
 ```
 功能：目前飞书提供的API是以每次最多500条的效率进行写入的，调用该函数可将data_frame的内容写入指定多维表格指定table_id的具体表格  
+
 
 调用API参考文档：  
 <font size="0.5">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/bitable-v1/app-table-record/create</font>
