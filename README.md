@@ -25,16 +25,17 @@ authen_token_paras = {
 ```
 readin_df = get_records_from_feishu(app_token, table_id, authen_token_paras)
 ```
-**参数说明**  
+#### 参数说明 
 app_token和table_id为飞书多维表格标识  
 参考文档：https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/bitable-overview  
 
 **功能**  
 将指定多维表格具体table_id对应的表格数据读入python，以pandas.DataFrame的形式存储  
 
+
 ### 2. 删除数据 delete_records_of_feishu_per500
 ```
 delete_records_of_feishu_per500(app_token, table_id, authen_token_paras)
 ```
 **功能**  
-目前飞书提供的API是以每次最多500条的效率进行删除的，调用本函数可将指定table_id的多维表格中的具体表格的数据清空
+目前飞书提供的API是以每次最多500条的效率进行删除的，调用该函数可将指定table_id的多维表格中的具体表格的数据清空
