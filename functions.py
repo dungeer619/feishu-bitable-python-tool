@@ -25,7 +25,7 @@ def read_from_feishu(app_token, table_id, authen_token_paras):
 #--- 试图写一个带 retry 的读取函数版本
 from retry import retry
 
-class HttpError(Exception):         # retry把Exception作为重试的条件，这里我们自定义HttpError401
+class HttpError(Exception):         # retry把Exception作为重试的条件
     """ Http Error """
 
 
@@ -97,7 +97,7 @@ def delete_records_of_feishu(app_token, table_id, records_to_del, authen_token_p
 #--- 试图写一个带 retry 的删除函数版本
 from retry import retry
 
-class HttpError(Exception):         # retry把Exception作为重试的条件，这里我们自定义HttpError401
+class HttpError(Exception):         # retry把Exception作为重试的条件
     """ Http Error """
 
 
