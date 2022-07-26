@@ -34,8 +34,8 @@ readin_df = get_records_from_feishu(app_token, table_id, authen_token_paras)
   
 调用API参考文档：  
 <font size="0.5">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/bitable-v1/app-table-record/list</font>  
-
-
+  
+&nbsp;
 
 ### 2. 清空记录 delete_records_of_feishu_per500
 ```
@@ -48,8 +48,8 @@ delete_records_of_feishu_per500(app_token, table_id, authen_token_paras)
 <font size="0.5">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/bitable-v1/app-table-record/list</font>  
 <font size="0.5">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/bitable-v1/app-table-record/delete</font>
   
-  
 &nbsp;
+
 ### 3. 新增记录 write_to_feishu_per500
 ```
 write_to_feishu_per500(data_frame, app_token, table_id, authen_token_paras)
