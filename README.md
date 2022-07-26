@@ -3,6 +3,7 @@
 
 涉及到的包  
 ```
+pandas
 requests  
 retry  
 json
@@ -18,8 +19,13 @@ authen_token_paras = {
 }
 ```
 
-函数汇总说明
+## 函数汇总说明
 ```
 readin_df = get_records_from_feishu(app_token, table_id, authen_token_paras)
-# 将
 ```
+**参数说明**  
+app_token和table_id为飞书多维表格标识  
+参考文档：https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/bitable-overview  
+
+**功能**  
+将指定多维表格具体table_id对应的表格数据读入python，以pandas.DataFrame的形式存储
