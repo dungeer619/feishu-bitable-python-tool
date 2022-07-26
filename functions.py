@@ -90,7 +90,7 @@ def attempt_read_request_by_page(page_token, app_token, table_id, authen_token_p
 #--- 按页读取所有记录
 def get_records_from_feishu(app_token, table_id, authen_token_paras):
     import json
-    import pandas
+    import pandas as pd
     from pandas import json_normalize
 
     read_response = attempt_read_request(app_token, table_id, authen_token_paras)
