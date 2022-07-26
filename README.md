@@ -33,9 +33,9 @@ readin_df = get_records_from_feishu(app_token, table_id, authen_token_paras)
 
 调用API参考文档：  
 https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/bitable-v1/app-table-record/list  
-  
-  
-  
+
+
+
 ### 2. 清空记录 delete_records_of_feishu_per500
 ```
 delete_records_of_feishu_per500(app_token, table_id, authen_token_paras)
