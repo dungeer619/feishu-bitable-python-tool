@@ -32,7 +32,7 @@ readin_df = get_records_from_feishu(app_token, table_id, authen_token_paras)
 功能：将指定多维表格具体table_id对应的表格数据读入python，以pandas.DataFrame的形式存储  
 
 调用API参考文档：  
-<font size="1">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/bitable-v1/app-table-record/list</font>  
+<font size="0.5">https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/bitable-v1/app-table-record/list</font>  
 
 
 
