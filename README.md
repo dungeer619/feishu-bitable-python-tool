@@ -9,7 +9,8 @@ retry
 json
 ```
 
-通过飞书应用获取authentication token
+获取应用身份访问凭证authentication token
+参考文档：https://open.feishu.cn/document/ukTMukTMukTM/ukDNz4SO0MjL5QzM/g
 ```
 authen_token_paras = {
     "authen_token_url": authen_token_url,
@@ -20,6 +21,7 @@ authen_token_paras = {
 ```
 
 ## 函数汇总说明
+### get_records_from_feishu(app_token, table_id, authen_token_paras)
 ```
 readin_df = get_records_from_feishu(app_token, table_id, authen_token_paras)
 ```
