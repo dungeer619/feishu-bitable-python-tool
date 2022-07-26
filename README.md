@@ -10,7 +10,8 @@ json
 ```
 
 获取应用身份访问凭证authentication token
-参考文档：https://open.feishu.cn/document/ukTMukTMukTM/ukDNz4SO0MjL5QzM/g
+参考文档：https://open.feishu.cn/document/ukTMukTMukTM/ukDNz4SO0MjL5QzM/g  
+其中authen_token_name取值如"tenant_access_token"
 ```
 authen_token_paras = {
     "authen_token_url": authen_token_url,
