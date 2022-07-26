@@ -1,3 +1,4 @@
+#--- 读取
 def read_from_feishu(app_token, table_id, authen_token_paras):
     import requests
 
@@ -22,7 +23,7 @@ def read_from_feishu(app_token, table_id, authen_token_paras):
  
 
     
-#--- 试图写一个带 retry 的读取函数版本
+#------ 试图写一个带 retry 的读取函数版本
 from retry import retry
 
 class HttpError(Exception):         # retry把Exception作为重试的条件
@@ -42,7 +43,75 @@ def attempt_read_request(app_token, table_id, authen_token_paras):
     return read_response                    # 如果请求返回成功，则获取请求的响应数据
 
 
+#--- 按页读取
+def read_from_feishu_by_page(page_token, app_token, table_id, authen_token_paras):
+    import requests
 
+    authen_token_url = authen_token_paras['authen_token_url']
+    authen_token_post_data = authen_token_paras['authen_token_post_data']
+    authen_token_name = authen_token_paras['authen_token_name']
+    
+    # 获取tenant_access_token
+    r = requests.post(authen_token_url, data=authen_token_post_data)
+    tat = r.json()[authen_token_name]
+
+
+    # 电子表格单元格的数据
+    header = {"content-type":"application/json", "Authorization":"Bearer " + str(tat)}
+
+    url = "https://open.feishu.cn/open-apis/bitable/v1/apps/{0}/tables/{1}/records?page_token={2}".format(app_token, table_id, page_token)
+    print(url)
+
+    read_response = requests.request("GET", url, headers=header)
+    print(read_response.status_code)
+    return(read_response)
+
+
+#------ 试图写一个带 retry 的读取函数版本
+from retry import retry
+
+class HttpError(Exception):         # retry把Exception作为重试的条件，这里我们自定义HttpError401
+    """ Http Error """
+
+
+@retry(HttpError, tries=3, delay=2)   # 以装饰器的方式使用retry
+def attempt_read_request_by_page(page_token, app_token, table_id, authen_token_paras):
+    import requests
+    
+    read_response = read_from_feishu_by_page(page_token, app_token, table_id, authen_token_paras)
+    print(read_response.status_code)
+    
+    
+    if read_response.status_code != 200:            # 如果请求不成功，即返回的不是200，则执行下面的抛出异常操作                      
+        raise HttpError
+    return read_response                    # 如果请求返回成功，则获取请求的响应数据
+
+
+#--- 按页读取所有记录
+def get_records_from_feishu(app_token, table_id, authen_token_paras):
+    import json
+    from pandas import json_normalize
+
+    read_response = attempt_read_request(app_token, table_id, authen_token_paras)
+    readin_df = json_normalize(json.loads(read_response.text)['data']['items'])
+
+    page_token = json.loads(read_response.text)['data']['page_token']
+    totalNum = json.loads(read_response.text)['data']['total']
+    num_of_iterations = (totalNum-1)//500
+
+    print(readin_df)
+    for i in range(0, num_of_iterations):
+        read_response = attempt_read_request_by_page(page_token, app_token, table_id, authen_token_paras)
+        readin_df = pd.concat([readin_df, json_normalize(json.loads(read_response.text)['data']['items'])], ignore_index=True)
+        # print("---------------------- New -----------------------")
+        # print(readin_df)
+    print("app_token:"+app_token+" table_id:"+table_id)
+    print("总行数:"+str(readin_df.shape[0]))
+    return readin_df
+
+
+#--- 删除
+#------ 获取删除的record_id
 def get_records_to_del(read_response):
     import requests
     import json
@@ -62,7 +131,7 @@ def get_records_to_del(read_response):
     print(len(records_to_del))
     return(records_to_del)
 
-
+#------ 根据record_id删除
 def delete_records_of_feishu(app_token, table_id, records_to_del, authen_token_paras):
     import requests
     import json
@@ -75,7 +144,7 @@ def delete_records_of_feishu(app_token, table_id, records_to_del, authen_token_p
     r = requests.post(authen_token_url, data=authen_token_post_data)
     tat = r.json()[authen_token_name]
 
-    # 3. 删除历史数据
+    # 删除历史数据
     # 电子表格单元格的数据
     header = {"content-type":"application/json", "Authorization":"Bearer " + str(tat)}
 
@@ -94,12 +163,11 @@ def delete_records_of_feishu(app_token, table_id, records_to_del, authen_token_p
     return response
 
 
-#--- 试图写一个带 retry 的删除函数版本
+#------ 试图写一个带 retry 的删除函数版本
 from retry import retry
 
 class HttpError(Exception):         # retry把Exception作为重试的条件
     """ Http Error """
-
 
 @retry(HttpError, tries=3, delay=2)   # 以装饰器的方式使用retry
 def attempt_delete_request(app_token, table_id, records_to_del, authen_token_paras):
@@ -114,6 +182,7 @@ def attempt_delete_request(app_token, table_id, records_to_del, authen_token_par
     return delete_response                    # 如果请求返回成功，则获取请求的响应数据
 
 
+#------ 删除所有记录
 def delete_records_of_feishu_per500(app_token, table_id, authen_token_paras):
     import requests
     import json
@@ -133,8 +202,9 @@ def delete_records_of_feishu_per500(app_token, table_id, authen_token_paras):
     print(len(records_to_del))
     
     
-# 试图封装写入函数
 
+#--- 写入
+#------ 单次写入
 def write_to_feishu(app_token, table_id, data_json_str, authen_token_paras):
     import json
     import requests
@@ -165,7 +235,7 @@ def write_to_feishu(app_token, table_id, data_json_str, authen_token_paras):
     return response
 
 
-#--- 试图写一个带 retry 的写入函数版本
+#------ 试图写一个带 retry 的写入函数版本
 from retry import retry
 
 class HttpError(Exception):         # retry把Exception作为重试的条件，这里我们自定义HttpError401
@@ -185,6 +255,7 @@ def attempt_write_request(app_token, table_id, data_json_str, authen_token_paras
     return write_response                    # 如果请求返回成功，则获取请求的响应数据
 
 
+#------ 总写入
 def write_to_feishu_per500(data_frame, app_token, table_id, authen_token_paras):
     num_of_iterations = data_frame.shape[0]//500
     
