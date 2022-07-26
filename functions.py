@@ -70,7 +70,7 @@ def read_from_feishu_by_page(page_token, app_token, table_id, authen_token_paras
 #------ 试图写一个带 retry 的读取函数版本
 from retry import retry
 
-class HttpError(Exception):         # retry把Exception作为重试的条件，这里我们自定义HttpError401
+class HttpError(Exception):         # retry把Exception作为重试的条件
     """ Http Error """
 
 
@@ -238,7 +238,7 @@ def write_to_feishu(app_token, table_id, data_json_str, authen_token_paras):
 #------ 试图写一个带 retry 的写入函数版本
 from retry import retry
 
-class HttpError(Exception):         # retry把Exception作为重试的条件，这里我们自定义HttpError401
+class HttpError(Exception):         # retry把Exception作为重试的条件
     """ Http Error """
 
 
