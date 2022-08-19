@@ -23,7 +23,7 @@ authen_token_paras = {
 
 ## 函数汇总说明
 **参数说明**  
-app_token和table_id为飞书多维表格标识  
+app_token 和 table_id 为飞书多维表格标识  
 参考文档：<font size="0.5">https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/bitable-overview</font>  
   
 &nbsp;
